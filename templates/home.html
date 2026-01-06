@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home | Secure Login System</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .dashboard {
+      width: 92%;
+      max-width: 920px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 42px;
+      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 0.8s ease;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: #14532d; /* dark green */
+    }
+
+    .logout-btn {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      border: none;
+      padding: 12px 22px;
+      border-radius: 14px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .alert {
+      margin: 18px 0 26px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      animation: slideDown 0.4s ease;
+    }
+
+    .alert-success {
+      background: rgba(34, 197, 94, 0.25);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+
+    .alert-danger {
+      background: rgba(239, 68, 68, 0.25);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    .welcome {
+      margin-bottom: 30px;
+      font-size: 18px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.18);
+      padding: 26px;
+      border-radius: 20px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+    }
+
+    .card h3 {
+      font-size: 20px;
+      margin-bottom: 14px;
+      color: #6ae3ff; /* premium heading color */
+    }
+
+    .card ul {
+      list-style: none;
+      padding-left: 0;
+      margin-left: 0;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .card ul li {
+      margin-bottom: 6px;
+      color: #000; /* black text for points */
+      position: relative;
+      padding-left: 25px;
+    }
+
+    /* 🔹 Yellow bullet */
+    .card ul li::before {
+      content: "🔹";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #facc15;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 36px;
+      text-align: center;
+      font-size: 13px;
+      opacity: 0.75;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="dashboard">
+
+    <div class="header">
+      <h1>Secure Login System</h1>
+      <form action="{{ url_for('logout') }}" method="GET">
+        <button class="logout-btn">Logout</button>
+      </form>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="welcome">
+      👋 Welcome back, <strong>{{ username }}</strong><br>
+      You are logged in to a highly secure authentication system.
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <h3>🔐 Account Security</h3>
+        <ul>
+          <li>Passwords stored using secure hashing</li>
+          <li>No plaintext password storage</li>
+          <li>Session-based authentication</li>
+          <li>Secure logout handling</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>📊 Login Monitoring</h3>
+        <ul>
+          <li>Tracks failed login attempts</li>
+          <li>Brute-force attack protection</li>
+          <li>Automatic account lock after 3 attempts</li>
+          <li>Temporary lock for 15 minutes</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🛡 System Integrity</h3>
+        <ul>
+          <li>Consistent error messaging</li>
+          <li>Prevents user enumeration</li>
+          <li>Secure database access</li>
+          <li>Built using Flask best practices</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <footer>
+      © 2026 Secure Login System | Security-First Design
+    </footer>
+
+  </div>
+
+  <script>
+    setTimeout(() => {
+      document.querySelectorAll('.alert').forEach(alert => {
+        alert.style.opacity = '0';
+        setTimeout(() => alert.remove(), 500);
+      });
+    }, 3000);
+  </script>
+
+</body>
+</html>
