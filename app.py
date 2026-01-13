@@ -4,18 +4,19 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-app.secret_key = "f3b2c1a4d5e6f7g8h9i0j1k2l3m4n5o6"  # Strong key in real apps
+app.secret_key = "api_key"  # Strong key in real apps
 
 # 🔐 Brute-force protection settings
 MAX_ATTEMPTS = 3
 LOCK_TIME_MINUTES = 15
 
 # MySQL database connection
+
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="123456",
-    database="secure_logins"
+    host="hostnamet",
+    user="username",
+    password="Password",
+    database="database_name"
 )
 cursor = db.cursor(dictionary=True)
 
